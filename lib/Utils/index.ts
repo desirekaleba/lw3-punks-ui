@@ -12,3 +12,14 @@ export const shrink = (str: string, len: number = 7) => {
         str.length
     )}`;
 };
+
+export const formatToUSD = (
+    amount: number,
+    maximumSignificantDigits?: number
+) => {
+    return amount.toLocaleString("en-US", {
+        currency: "USD",
+        style: "currency",
+        maximumSignificantDigits
+    });
+};

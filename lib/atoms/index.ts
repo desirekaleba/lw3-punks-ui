@@ -1,7 +1,10 @@
 import { atom } from "recoil";
 import {
+    IAssetData,
     IConnectedUser,
-    IConnectWallet
+    IConnectWallet,
+    INFT,
+    TNetworks
 } from "../types";
 
 export const currentYPos = atom<number>({
@@ -22,11 +25,7 @@ export const connectedUser = atom<IConnectedUser>({
     },
 });
 
-export const connectWallet = atom<{
-    openModal: boolean;
-    connecting: boolean;
-    connected?: boolean;
-}>({
+export const connectWallet = atom<IConnectWallet>({
     key: "connectWallet",
     default: {
         openModal: false,
@@ -38,4 +37,43 @@ export const connectWallet = atom<{
 export const drawerMenu = atom<boolean>({
     key: "drawerMenu",
     default: false,
+});
+
+export const assetsData = atom<
+  Record<TNetworks, IAssetData> & { loading: boolean }
+>({
+  key: "assetsData",
+  default: {
+    loading: false,
+    ethereum: {
+      hasLoaded: false,
+      balances: [],
+      totalUSDBalance: 0,
+      totalBalance: 0,
+    },
+    bsc: {
+      hasLoaded: false,
+      balances: [],
+      totalUSDBalance: 0,
+      totalBalance: 0,
+    },
+  },
+});
+
+export const nftData = atom<
+  Record<TNetworks, Partial<{nfts: INFT[]; hasLoaded: boolean}>> & {
+    loading: boolean;
+  }>({
+    key: "nftData",
+    default: {
+      loading: false,
+      ethereum: {
+        nfts: [],
+        hasLoaded: false,
+      },
+      bsc: {
+        nfts: [],
+        hasLoaded: false
+      },
+    },
 });

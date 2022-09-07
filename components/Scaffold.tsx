@@ -31,15 +31,15 @@ type Props = {
 
 const VERTICAL_TABS: TVerticalTabs = [
     {
-        label: "Tokens",
-        href: "/",
-        icon: <HiCurrencyDollar className="text-xl lg:text-2xl" />,
-    },
-    {
         label: "NFTs",
-        href: "/nfts",
+        href: "/",
         icon: <RiImage2Line className="text-xl lg:text-2xl" />,
     },
+    {
+        label: "Tokens",
+        href: "/tokens",
+        icon: <HiCurrencyDollar className="text-xl lg:text-2xl" />,
+    }
 ];
 
 const Scaffold: FC<Props> = ({ children }) => {

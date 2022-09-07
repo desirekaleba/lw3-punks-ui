@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { currentYPos } from "../lib/atoms";
 import { TVerticalTabs } from "../lib/types";
+import { SUPPORTED_NETWORKS } from "../lib/Utils/constants";
 
 type IProps = {
     tabs: TVerticalTabs;
@@ -66,3 +67,131 @@ export const VerticalTabs = ({ tabs, onTabChange }: IProps) => {
         </ul>
     );
 };
+
+type Props = {
+    tabs: { 
+        value: string | number;
+        label: string
+    }[];
+    defaultTab?: string | number;
+    className?: string;
+    selectedStyle?: string;
+    unSelectedStyle?: string;
+    onTabChange?: (value: string | number, index?: number) => void;
+    onInitialLoad?: (value: string | number, index?: number) => void;
+};
+
+const Tabs: FC<Props> = ({
+    tabs,
+    defaultTab,
+    className,
+    selectedStyle,
+    unSelectedStyle,
+    onTabChange,
+    onInitialLoad,
+}: Props) => {
+    const [boundRect, setBoundRect] = useState<DOMRect>();
+    const { query, pathname } = useRouter();
+    const { chain } = query;
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const tabItemsRef = useRef<HTMLDivElement[]>([]);
+    const xPos = (tabItemsRef.current?.[currentIndex]?.offsetLeft || 5) - 5;
+
+    const getBounds = useCallback(() => {
+        if (tabItemsRef.current) {
+            const item = tabItemsRef.current[currentIndex];
+            const boundRect = item.getBoundingClientRect();
+
+            setBoundRect(boundRect);
+        }
+    }, [currentIndex, tabItemsRef]);
+
+    useEffect(() => {
+        getBounds();
+
+        if (window === undefined) return;
+
+        window.addEventListener("resize", () => {
+            getBounds();
+        });
+
+        return () => {
+            window.removeEventListener("resize", () => {
+                getBounds();
+            });
+        };
+    }, [getBounds]);
+
+    useEffect(() => {
+        const defaultTabIndex = tabs.findIndex((tab) => {
+            if (chain) {
+                return tab.value === chain;
+            }
+            return tab.value === defaultTab;
+        });
+
+        setCurrentIndex(defaultTabIndex < 0 ? 0 : defaultTabIndex);
+        onInitialLoad?.(
+            tabs[defaultTabIndex]?.value || SUPPORTED_NETWORKS.ethereum.value
+        );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chain]);
+
+    return (
+        <div
+            className={`flex items-center bg-tertiary rounded-md relative h-10 isolate py-[0.3rem] ${className}`}
+        >
+            <div
+                className="bg-white rounded-md text-branding-blue font-medium absolute top-0 botton-0 -z-[1]"
+                style={{
+                    transition: "all 0.1s ease-in-out 0s",
+                    transform: `translateX(${xPos}px)`,
+                    width: boundRect?.width,
+                    margin: 4,
+                }}
+            />
+            {tabs.map((tabItem, index) => {
+                const isCurrent = currentIndex == index;
+
+                return (
+                    <Link href={`${pathname}?chain=${tabItem.value}`} key={tabItem.value}>
+                        <div
+                            role="tab"
+                            aria-selected={isCurrent}
+                            tabIndex={0}
+                            onKeyDown={() => null}
+                            ref={(element) => {
+                                if (element != null) {
+                                    tabItemsRef.current[index] = element;
+                                    return tabItemsRef.current[index];
+                                }
+                                return element;
+                            }}
+                            onClick={() => {
+                                onTabChange?.(tabItem.value, index);
+                                setCurrentIndex(index);
+                            }}
+                            className={`flex justify-center items-center w-full h-full px-3 mx-[0.3rem] text-xs ${
+                                isCurrent ? selectedStyle : unSelectedStyle
+                            }`}
+                        >
+                            {tabItem.label}
+                        </div>
+                    </Link>
+                );
+            })}
+        </div>
+    );
+};
+
+Tabs.defaultProps = {
+    onTabChange: () => null,
+    className: "",
+    selectedStyle: "text-primary font-semibold",
+    unSelectedStyle: "text-secondary",
+    defaultTab: "",
+};
+
+export default Tabs;
