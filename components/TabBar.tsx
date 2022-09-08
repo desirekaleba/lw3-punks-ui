@@ -23,7 +23,8 @@ const TabBar = ({
                 tabs={Object.values(SUPPORTED_NETWORKS)}
                 className="w-96"
                 onTabChange={(tabChain) => {
-                    setTabChain((val) => ({ ...val, chain: tabChain as TNetworks }))
+                    setTabChain((val) => ({ ...val, chain: tabChain as TNetworks }));
+                    onChange?.(tabChain);
                 }}
                 onInitialLoad={(tabChain) => {
                     setTabChain((val) => ({ ...val, chain: tabChain as TNetworks }))

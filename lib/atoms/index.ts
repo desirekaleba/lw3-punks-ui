@@ -4,6 +4,7 @@ import {
     IConnectedUser,
     IConnectWallet,
     INFT,
+    ITransaction,
     TNetworks
 } from "../types";
 
@@ -76,4 +77,24 @@ export const nftData = atom<
         hasLoaded: false
       },
     },
+});
+
+export const transactionsData = atom<
+  Record<
+    TNetworks,
+    Partial<{ transactions: ITransaction[]; hasLoaded: boolean }>
+  > & { loading: boolean }
+>({
+  key: "transactionsData",
+  default: {
+    loading: false,
+    ethereum: {
+      transactions: [],
+      hasLoaded: false,
+    },
+    matic: {
+      transactions: [],
+      hasLoaded: false,
+    },
+  },
 });

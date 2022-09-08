@@ -61,3 +61,39 @@ export interface INetworkDetail {
     symbol?: string;
     asset?: string;
 }
+
+export interface ITransaction {
+    block?: number;
+    date: number;
+    description?: string;
+    fee: string;
+    from: string;
+    id?: string;
+    native_token_decimals?: number;
+    nonce?: number;
+    received?: ITransactionReceived[];
+    sent?: ITransactionReceived[];
+    status?: "completed" | string;
+    to: string;
+    type?: TTransactionType;
+    value: string;
+  }
+
+  export interface ITransactionReceived {
+    decimals?: number;
+    from: string;
+    logo_url: string;
+    name: string;
+    symbol: string;
+    to: string;
+    token_id: string;
+    value: string;
+  }
+
+  export type TTransactionType =
+  | "receive"
+  | "contract_execution"
+  | "send"
+  | "swap"
+  | "approve";
+  
