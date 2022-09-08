@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["assets.unmarshal.io"],
+    domains: ["assets.unmarshal.io", "unmarshal.mypinata.cloud"],
   },
 };
 
