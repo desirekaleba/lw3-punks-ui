@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const useMediaQuery = (screen = "(max-width: 768px)") => {
     const [matches, setMatches] = useState<boolean>(false);
 
-    const onResizeScreen = (event: MediaQueryList | boolean) => {
+    const onResizeScreen = (event: MediaQueryListEvent | boolean) => {
         setMatches(typeof event === "boolean" ? event : event.matches);
     };
 
@@ -16,14 +16,14 @@ const useMediaQuery = (screen = "(max-width: 768px)") => {
         try {
             matchMedia.addEventListener("change", onResizeScreen);
         } catch (error) {
-            matchMedia.addListener(onResizeScreen);
+            matchMedia.removeEventListener("change", onResizeScreen);
         }
 
         return () => {
             try {
                 matchMedia.removeEventListener("change", onResizeScreen);
             } catch (error) {
-                matchMedia.removeListener(onResizeScreen);
+                matchMedia.removeEventListener("change", onResizeScreen);
             }
         };
     }, [screen]);
