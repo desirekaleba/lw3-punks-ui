@@ -25,14 +25,14 @@ const NFTs = () => {
 
         <div className="w-full flex flex-wrap-reverse lg:flex-nowrap justify-between lg:space-x-6">
           {loading && (
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {Array.from({ length: 8 }).map((_, index) => (
                 <NftCardLoader key={index} />
               ))}
             </div>
           )}
           {(!loading && currentNFTChain.nfts?.length && (
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {currentNFTChain.nfts?.map((nft) => {
                 return <NftCard nft={nft} key={nft.tokenId} />;
               })}
