@@ -1,7 +1,7 @@
 import React from "react";
 
 // Types
-export type TNetworks = "ethereum" | "bsc";
+export type TNetworks = "matic" | "ethereum";
 export type TVerticalTabs = {
     icon: React.ReactNode;
     label: string;

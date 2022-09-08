@@ -20,7 +20,7 @@ export const invalidAddressMsg = atom<string>({
 export const connectedUser = atom<IConnectedUser>({
     key: "userAddress",
     default: {
-        chain: "ethereum",
+        chain: "matic",
         address: "",
     },
 });
@@ -51,7 +51,7 @@ export const assetsData = atom<
       totalUSDBalance: 0,
       totalBalance: 0,
     },
-    bsc: {
+    matic: {
       hasLoaded: false,
       balances: [],
       totalUSDBalance: 0,
@@ -71,7 +71,7 @@ export const nftData = atom<
         nfts: [],
         hasLoaded: false,
       },
-      bsc: {
+      matic: {
         nfts: [],
         hasLoaded: false
       },
