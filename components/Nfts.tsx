@@ -4,7 +4,6 @@ import { useRecoilValue } from "recoil";
 import BalanceWallet from "./BalanceWallet";
 import { NftCardLoader } from "./Loaders";
 import NftCard from "./NftCard";
-import Scaffold from "./Scaffold";
 import TabBar from "./TabBar";
 import { connectedUser } from "../lib/atoms";
 import useNfts from "../lib/hooks/useNfts";
@@ -47,7 +46,7 @@ const NFTs = () => {
                   size={60}
                   className="text-5xl lg:text-6xl text-secondary"
                 />
-                <p className="text-secondary mt-2">NFTs will appear here</p>
+                <p className="text-secondary mt-2">No NFT found...</p>
               </div>
             </div>
           )}

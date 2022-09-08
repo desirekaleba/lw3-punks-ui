@@ -68,7 +68,7 @@ const ConnectModal = () => {
                         </button>
                     </div>
                     <p className="text-sm md:text-xl text-center mb-6 tracking-min">
-                        Connect Wallet
+                        Choose Wallet
                     </p>
                     <button
                         onClick={async () => {

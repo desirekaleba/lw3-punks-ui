@@ -1,7 +1,5 @@
 import React, { FC } from "react";
 import {
-    Bar,
-    BarChart,
     CartesianGrid,
     Legend,
     Line,
